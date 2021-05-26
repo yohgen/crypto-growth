@@ -1,17 +1,29 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { StoreContext } from '../utils/store';
 
 const AddPair = () => {
-  const [baseCurs, setBaseCurs] = useState({
-    BTC: ['USDT', 'RUB', 'BUSD', 'EUR', 'UAH'],
-    ETH: ['BTC', 'USDT', 'RUB', 'BUSD', 'EUR'],
-    BNB: ['BTC', 'ETH', 'USDT', 'RUB', 'BUSD', 'EUR', 'UAH'],
-  });
-  const [quoteCurs, setQuoteCurs] = useState([]);
-  const [quoteCurValue, setQuoteCurValue] = useState('');
+  const pairGraph = useContext(StoreContext).pairGraph;
+  const [actPairs] = useContext(StoreContext).actPairs;
+  const pairChange = useContext(StoreContext).pairChange;
+
+  const [baseVal, setBaseVal] = useState('');
+  const [quoteVal, setQuoteVal] = useState('');
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    const pair = baseVal + quoteVal;
+    if (!actPairs.has(pair)) {
+      pairChange.current.set('add', pair);
+    }
+
+    setBaseVal('');
+    setQuoteVal('');
+  };
 
   return (
     <div className='add-pair'>
-      <form name='add-pair' method='POST'>
+      <form name='add-pair' method='POST' onSubmit={handleFormSubmit}>
         <div className='add-pair-lists'>
           <div className='list base-currency'>
             <label htmlFor='base-currency'>base</label>
@@ -20,15 +32,17 @@ const AddPair = () => {
               id='base-currency'
               list='base-currency-list'
               onChange={(e) => {
-                setQuoteCurs(baseCurs[e.target.value]);
-                setQuoteCurValue('');
+                setBaseVal(e.target.value);
+                setQuoteVal('');
               }}
+              value={baseVal}
               required
             />
             <datalist id='base-currency-list'>
-              {Object.keys(baseCurs) && Object.keys(baseCurs).map((ele) => {
-                return <option value={ele} />;
-              })}
+              {pairGraph.current.size &&
+                [...pairGraph.current.keys()].map((ele) => {
+                  return <option key={'base_' + ele} value={ele} />;
+                })}
             </datalist>
           </div>
           <span>/</span>
@@ -38,12 +52,15 @@ const AddPair = () => {
               name='quote-currency'
               id='quote-currency'
               list='quote-currency-list'
-              value={quoteCurValue}
-              onChange={(e) => setQuoteCurValue(e.target.value)}
+              value={quoteVal}
+              onChange={(e) => setQuoteVal(e.target.value)}
               required
             />
             <datalist id='quote-currency-list'>
-              {quoteCurs && quoteCurs.map((ele) => <option value={ele} />)}
+              {pairGraph.current.has(baseVal) &&
+                pairGraph.current.get(baseVal).map((ele) => {
+                  return <option key={'quote_' + ele} value={ele} />;
+                })}
             </datalist>
           </div>
         </div>
