@@ -1,6 +1,9 @@
 <div align='center'>
   <img src='https://user-images.githubusercontent.com/34924430/119693319-d5e4bd00-be54-11eb-8d76-9bc469ac82f0.png' />
 </div>
+<div align='center'>
+  <img src='https://api.netlify.com/api/v1/badges/335e2eb7-74d6-4ef8-9f49-8f51daf63f7b/deploy-status' />
+</div>
 
 # [crypto-growth] A Cryptocurrency Growth monitoring app
 
