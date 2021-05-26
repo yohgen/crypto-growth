@@ -1,70 +1,29 @@
-# Getting Started with Create React App
+<div align='center'>
+  <img src='https://user-images.githubusercontent.com/34924430/119693319-d5e4bd00-be54-11eb-8d76-9bc469ac82f0.png' />
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# [crypto-growth] A Cryptocurrency Growth monitoring app
 
-## Available Scripts
+A [React](https://reactjs.org/) web app that streams 24h price changes for cryptocurrency pairs of your choosing from [Binance](https://www.binance.com/en) WebSocket.
 
-In the project directory, you can run:
+# [🛠️] Development
 
-### `npm start`
+The app supports regular `create-react-app` [(link)](https://github.com/facebook/create-react-app) functionality:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+npm start   # to start live dev environment
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+npm build   # to create an optimized build ready for production
+```
 
-### `npm test`
+# [📡] WebSocket and Store
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The main part of the app happens to be in [store.js](/src/utils/store.js), which I highly suggest to visit since it contains comments useful for development. The file itself implements Flux-like functionality with `useContext` as well as WebSocket connection.
 
-### `npm run build`
+Another thing to note here is the WebSocket. In order to use WebSocket (without external premade components) one has to use two `useEffect`'s:
+* One is needed to initiate a WebSocket connection, so it's also prudent to run it only once (i.e. with empty `[]` deps), or maybe add a custom logic to reconnect on failure/closure.
+* And the second one is for receiving messages. It has _no_ deps for a single reason: every time `useEffect` is called, it creates its own closure that remembers all the variables that were called inside its function body, which in turn means that if we call `useEffect` once, it will use the same `useState` variables that were intially created (and because of immutability rule, each time `useState` variable changes, it actually creates new variable that the intial `useEffect` has no access to, and instead uses the old one). In short, we need to 'rebind' WS message callback on each iteration so that it uses the most fresh `useState` variables.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# [📝] License
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This work is licensed under [GPL-3.0-or-later](https://spdx.org/licenses/GPL-3.0-or-later.html) (see [NOTICE](/NOTICE)). <br>For attributions of open source work incorporated here see [ATTRIBUTIONS.md](/ATTRIBUTIONS.md).
