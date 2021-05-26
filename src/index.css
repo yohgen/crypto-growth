@@ -1,32 +1,15 @@
-:focus-visible {
-  outline: none;
-}
+/* Condensed font for active pairs */
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300;400&display=swap');
+/* Main interface font */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
+/* Logo/'Brand' Identity font */
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400&display=swap');
-
+/* General section */
 * {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-}
-
-html {
-  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 18px;
-}
-
-body {
-  --headBgColor: #12161c;
-  --bgColor: #1e2026;
-  --bgColorAlt: #14151a;
-  --fgColor: #ffffff;
-  --green: #02c076;
-  --red: #f84960;
-  --yel: #f0b90b;
-  --yelAlt: #f8d12f;
-  background-color: var(--bgColor);
-  color: var(--fgColor);
 }
 
 h1,
@@ -36,13 +19,58 @@ p {
   margin: 0px;
 }
 
+html {
+  font-family: Ubuntu, Dosis, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 18px;
+}
+
+/* Color variables */
+body {
+  --headBgColor: #12161c;
+  --bgColor: #1e2026;
+  --bgColorAlt: #14151a;
+  --fgColor: #ffffff;
+  --green: #02c076;
+  --red: #f84960;
+  --yel: #f0b90b;
+  --yelAlt: #f8d12f;
+  background-color: var(--bgColorAlt);
+  color: var(--fgColor);
+}
+
+/* Needed for proper Footer */
+#root {
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  width: 100%;
+}
+
+/* Footer is made by making outer .App
+a flexbox, setting .main (Header/Top/Bot)
+to grow and Footer to shrink */
 .App {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  width: 100%;
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
+}
+
+/* Header section */
 .header {
   height: 3.5rem;
   width: 100%;
@@ -52,11 +80,32 @@ p {
   align-items: center;
   color: var(--yel);
   background-color: var(--headBgColor);
+  box-shadow: 0px 3px 3px 1px #000000;
+  font-family: 'Red Hat Display', Ubuntu, Dosis, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+/* Reverses the paragraph
+(i.e. from 'rypto' to 'otpyr') */
+#header-left {
+  -moz-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+
+.header img {
+  height: 3rem;
+  width: 3rem;
+}
+
+/* Top section (add/remove pair interface) */
 .top {
-  border: 4px solid var(--bgColor);
-  background-color: var(--bgColorAlt);
+  border: 6px solid var(--bgColorAlt);
+  border-left-width: 12px;
+  border-right-width: 12px;
+  margin-top: 12px;
+  background-color: var(--bgColor);
   max-width: 45rem;
   width: 100%;
   padding: 2rem;
@@ -72,10 +121,12 @@ p {
 .top .top-div h2 {
   margin: 0.5rem;
   width: 10rem;
+  text-align: right;
+  margin-top: 18px;
 }
 
 .top .add-pair,
-.remove-pair {
+.top .remove-pair {
   flex-grow: 1;
 }
 
@@ -112,16 +163,17 @@ p {
   height: 2rem;
   margin: auto;
   background-color: var(--yel);
-  color: var(--bgColorAlt);
-  border: 2px solid var(--bgColorAlt);
+  color: var(--bgColor);
+  border: 2px solid var(--bgColor);
   border-radius: 5px;
   cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .top form input {
   background-color: var(--fgColor);
-  color: var(--bgColorAlt);
-  border: 2px solid var(--bgColorAlt);
+  color: var(--bgColor);
+  border: 2px solid var(--bgColor);
   border-radius: 5px;
   height: 1.5rem;
   width: 100%;
@@ -158,6 +210,184 @@ p {
   margin-bottom: 0.5rem;
 }
 
+/* Bot section (active pairs) */
+.bot {
+  background-color: var(--bgColorAlt);
+  max-width: 45rem;
+  width: 100%;
+  font-family: Dosis, Ubuntu, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.bot .pair-box {
+  border: 12px solid var(--bgColorAlt);
+  border-top-width: 6px;
+  border-bottom-width: 0px;
+  background-color: var(--bgColor);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+/* Square corners */
+.bot .pair-box .corners {
+  height: inherit;
+  width: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.bot .pair-box .corners.left {
+  padding-right: 0px;
+}
+
+.bot .pair-box .corners.right {
+  padding-left: 0px;
+}
+
+.bot .pair-box span {
+  width: 5px;
+  height: 5px;
+}
+
+.bot .pair-box .left-top-corner,
+.bot .pair-box .right-top-corner {
+  border-top: 1px solid var(--fgColor);
+}
+
+.bot .pair-box .left-bot-corner,
+.bot .pair-box .right-bot-corner {
+  border-bottom: 1px solid var(--fgColor);
+}
+
+.bot .pair-box .left-top-corner,
+.bot .pair-box .left-bot-corner {
+  border-left: 1px solid var(--fgColor);
+}
+
+.bot .pair-box .right-top-corner,
+.bot .pair-box .right-bot-corner {
+  border-right: 1px solid var(--fgColor);
+}
+
+.bot .pair-content {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.bot .pair-content::before,
+.bot .pair-content::after {
+  content: '';
+  width: 100%;
+}
+
+.bot .pair-content p {
+  font-size: 1.5rem;
+  padding: 0px 1.5rem;
+  color: var(--fgColor);
+  max-width: 20rem;
+  width: 100%;
+  text-align: center;
+}
+
+.bot .pair-content .percent {
+  color: var(--fgColor);
+}
+
+.bot .pair-content .percent.red {
+  color: var(--red);
+}
+
+.bot .pair-content .percent.green {
+  color: var(--green);
+}
+
+/* Modal */
+.modal-bg {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: inherit;
+  height: inherit;
+  z-index: 10000;
+}
+
+.modal-bg::before {
+  content: '';
+  position: inherit;
+  width: inherit;
+  height: inherit;
+  top: inherit;
+  left: inherit;
+  background-color: var(--bgColorAlt);
+  filter: opacity(0.75);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4rem;
+  height: 4rem;
+  margin-left: -2rem;
+  margin-top: -2rem;
+  background-color: var(--yel);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+svg {
+  height: 48px;
+  width: 48px;
+  stroke: var(--bgColor);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Footer section (copyright/GitHub link) */
+footer {
+  width: 100%;
+  border-top: 2px solid #999999;
+  color: #999999;
+  font-weight: 300;
+  font-size: 14px;
+  display: flex;
+  flex-flow: row wrap;
+  flex: 0 1 auto;
+  justify-content: center;
+  align-content: center;
+  margin-top: 12px;
+}
+
+footer p {
+  padding: 0.25rem 0.5rem;
+}
+
+footer a {
+  color: inherit;
+  text-decoration: underline solid var(--fgColor) 1px;
+}
+
+footer a:hover {
+  color: var(--yelAlt);
+  text-decoration: underline solid var(--yelAlt) 1px;
+}
+
+/* Media queries */
 @media screen and (max-width: 665px) {
   .top .top-div h2 {
     width: 100%;
@@ -176,7 +406,8 @@ p {
     width: 100%;
   }
 
-  .top form div, input {
+  .top form div,
+  input {
     width: 100%;
   }
 }
