@@ -1,7 +1,9 @@
 const Header = () => {
   return (
     <header className='header'>
-      <h1>Crypto Growth</h1>
+      <h1 id='header-left'>rypto</h1>
+      <img src='/header-logo.png' alt='Crypto Growth Logo' />
+      <h1 id='header-right'>rowth</h1>
     </header>
   );
 };
