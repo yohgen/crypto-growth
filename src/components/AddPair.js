@@ -12,9 +12,15 @@ const AddPair = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    const pair = baseVal + quoteVal;
-    if (!actPairs.has(pair)) {
-      pairChange.current.set('add', pair);
+    if (
+      pairGraph.current.has(baseVal)
+        && pairGraph.current.get(baseVal).includes(quoteVal)
+    ) {
+      
+      const pair = baseVal + quoteVal;
+      if (!actPairs.has(pair)) {
+        pairChange.current.set('add', pair);
+      }
     }
 
     setBaseVal('');
@@ -28,6 +34,9 @@ const AddPair = () => {
           <div className='list base-currency'>
             <label htmlFor='base-currency'>base</label>
             <input
+              type='text'
+              minLength='2'
+              maxLength='9'
               name='base-currency'
               id='base-currency'
               list='base-currency-list'
@@ -49,6 +58,9 @@ const AddPair = () => {
           <div className='list quote-currency'>
             <label htmlFor='quote-currency'>quote</label>
             <input
+              type='text'
+              minLength='2'
+              maxLength='4'
               name='quote-currency'
               id='quote-currency'
               list='quote-currency-list'

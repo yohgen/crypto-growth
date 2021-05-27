@@ -11,9 +11,11 @@ const RemovePair = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    let pair = removeVal.replace(/\//g, '');
-    if (actPairs.has(pair)) {
-      pairChange.current.set('remove', pair);
+    const pair = removeVal.replace(/\//g, '');
+    if (pairDict.current.has(pair)) {
+      if (actPairs.has(pair)) {
+        pairChange.current.set('remove', pair);
+      }
     }
 
     setRemoveVal('');
@@ -25,6 +27,9 @@ const RemovePair = () => {
         <div className='list remove-pair-list'>
           <label htmlFor='currency-pair'>pair</label>
           <input
+            type='text'
+            minLength='5'
+            maxLength='14'
             id='currency-pair'
             name='currency-pair'
             list='pair-list'
